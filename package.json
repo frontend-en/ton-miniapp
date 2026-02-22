@@ -13,6 +13,8 @@
     "@ton/appkit": "^0.0.1",
     "@tonconnect/ui": "^2.4.1",
     "@twa-dev/sdk": "^8.0.2",
+    "buffer": "^6.0.3",
+    "process": "^0.11.10",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },
