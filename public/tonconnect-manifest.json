@@ -1,7 +1,7 @@
 {
-  "url": "https://REPLACE_WITH_YOUR_VERCEL_DOMAIN",
+  "url": "https://ton-miniapp-one.vercel.app",
   "name": "TON Mini App (Testnet)",
-  "iconUrl": "https://REPLACE_WITH_YOUR_VERCEL_DOMAIN/vite.svg",
-  "termsOfUseUrl": "https://REPLACE_WITH_YOUR_VERCEL_DOMAIN",
-  "privacyPolicyUrl": "https://REPLACE_WITH_YOUR_VERCEL_DOMAIN"
+  "iconUrl": "https://ton-miniapp-one.vercel.app/vite.svg",
+  "termsOfUseUrl": "https://ton-miniapp-one.vercel.app",
+  "privacyPolicyUrl": "https://ton-miniapp-one.vercel.app"
 }
