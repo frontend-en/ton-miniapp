@@ -3,15 +3,18 @@
 
 import { Buffer } from 'buffer';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const g: any = globalThis as any;
+const g = globalThis as typeof globalThis & {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  Buffer?: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  global?: any;
+};
 
 if (!g.Buffer) {
   g.Buffer = Buffer;
 }
 
-// Optional: some libs check for global/process
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// Optional: some libs check for global
 if (!g.global) {
   g.global = g;
 }
