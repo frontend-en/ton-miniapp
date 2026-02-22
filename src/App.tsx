@@ -17,10 +17,24 @@ type StatusKind = 'idle' | 'working' | 'ok' | 'error';
 
 function statusKindFromText(text: string): StatusKind {
   const t = (text || '').toLowerCase();
-  if (!t || t === 'idle') return 'idle';
-  if (t.includes('failed') || t.includes('error') || t.includes('denied') || t.includes('forbidden')) return 'error';
-  if (t.includes('connected')) return 'ok';
+  if (!t || t === 'idle' || t.includes('готово')) return 'idle';
+  if (t.includes('ошибка') || t.includes('failed') || t.includes('error') || t.includes('denied') || t.includes('forbidden')) return 'error';
+  if (t.includes('подключено') || t.includes('connected')) return 'ok';
   return 'working';
+}
+
+function localizeStatus(text: string) {
+  const t = (text || '').toLowerCase();
+  if (!t || t === 'idle') return 'Готово';
+  if (t.includes('opening wallet')) return 'Открываю кошелёк…';
+  if (t.includes('disconnecting')) return 'Отключаю…';
+  if (t.includes('address copied')) return 'Адрес скопирован';
+  if (t === 'connected') return 'Подключено';
+  if (t.startsWith('connect failed:')) return `Ошибка подключения: ${text.slice('connect failed:'.length).trim()}`;
+  if (t.startsWith('disconnect failed:')) return `Ошибка отключения: ${text.slice('disconnect failed:'.length).trim()}`;
+  if (t.startsWith('copy failed:')) return `Ошибка копирования: ${text.slice('copy failed:'.length).trim()}`;
+  if (t.startsWith('connected (no address')) return 'Подключено (адрес пока не получен)';
+  return text;
 }
 
 export default function App() {
@@ -35,7 +49,8 @@ export default function App() {
   const manifestUrl = useMemo(() => guessManifestUrl(), []);
   const appKit = useMemo(() => createTonAppKit(manifestUrl), [manifestUrl]);
 
-  const kind = statusKindFromText(status);
+  const statusRu = localizeStatus(status);
+  const kind = statusKindFromText(statusRu);
 
   const connect = async () => {
     setStatus('opening wallet…');
@@ -90,10 +105,10 @@ export default function App() {
             <div className="brandMark" aria-hidden />
             <div>
               <h1 className="hTitle">TON Mini App</h1>
-              <p className="hSub">Testnet • Connect wallet and show address</p>
+              <p className="hSub">Тестовая сеть • Подключение кошелька и отображение адреса</p>
             </div>
           </div>
-          <div className="badge">Built with AppKit (alpha)</div>
+          <div className="badge">AppKit alpha</div>
         </header>
 
         <div className="grid">
@@ -106,11 +121,6 @@ export default function App() {
                 <div className="kvRow">
                   <div className="k">Telegram</div>
                   <div className="v">{tgUser || '—'}</div>
-                </div>
-
-                <div className="kvRow">
-                  <div className="k">Manifest</div>
-                  <div className="v mono">{manifestUrl}</div>
                 </div>
               </div>
 
@@ -133,12 +143,12 @@ export default function App() {
                       kind === 'error' ? 'dotErr' : '',
                     ].join(' ')}
                   />
-                  <span>{status}</span>
+                  <span>{statusRu}</span>
                 </span>
               </div>
 
               <p className="footer">
-                Tip: open this app from Telegram to test the real WebApp context.
+                Совет: открывай мини‑апп из Telegram, чтобы проверить реальный WebApp‑контекст.
               </p>
             </div>
           </section>
